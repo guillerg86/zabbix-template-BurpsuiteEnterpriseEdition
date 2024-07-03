@@ -54,8 +54,9 @@ python3.exe burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token TOKEN
 
 Si todo es correcto, recibirá un json como respuesta, con identificadores de los agentes, lance la siguiente ejecución cambiando ID_AGENTE por el id de uno de los que haya salido en el resultado
 
+```
 python3.exe burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token TOKEN_API --api_base-url https://burpsuiteserver.yourdomain.tld/graphql/v1 --action discover --action agentinfo --agent-id ID_AGENTE
-
+```
 
 ## Instalación
 
