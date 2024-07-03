@@ -66,8 +66,8 @@ Por ello en el agente se han de crear un fichero de configuración con los UserP
 **Linux**
 
 ```
-UserParameter=burpsuiteee.scanresources.discover[*],/usr/bin/python3 /etc/zabbix/scripts/burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token $1 --api_base-url $2 --action discover
-UserParameter=burpsuiteee.scanresources.agentinfo[*],/usr/bin/python3 /etc/zabbix/scripts/burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token $1 --api_base-url $2 --action agentinfo --agent-id $3
+UserParameter=burpsuiteee.scanresources.discover[*],/usr/bin/python3 /etc/zabbix/scripts/burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token $1 --api-base-url $2 --action discover
+UserParameter=burpsuiteee.scanresources.agentinfo[*],/usr/bin/python3 /etc/zabbix/scripts/burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token $1 --api-base-url $2 --action agentinfo --agent-id $3
 ```
 
 Si desea forzar la comprobación de certificado SSL del servidor en la petición, borre el `--disable-ssl-verify`. Guarde los cambios.
@@ -84,6 +84,28 @@ Copie los ficheros burpsuiteee.py y burpsuiteee_monitor_agents.py
 cp burpsuiteee.py /etc/zabbix/scripts
 cp burpsuiteee_monitor_agents.py /etc/zabbix/scripts
 ```
+### Prototype Items
+
+- Identifier
+- Name
+- IP Address
+- Current scan count
+- Max concurrent scans
+- CPU Cores
+- RAM (GB)
+- State
+- Warning
+- Error
+- Enabled
+
+### Prototype Triggers
+
+|Trigger|Severity|Condition|
+|-|-|-|
+|Scanner {#NAME} has warnings|Warning|Cuando warning sea diferente de null|
+|Scanner {#NAME} is disconnected|Disaster|Cuando state sea DisconnectedState|
+|Scanner {#NAME} not authorized|Warning|Cuando state no sea AuthorizedState y tampoco sea DisconnectedState|
+|Scanner {#NAME} with error|Disaster|Cuando error sea diferente de null| 
 
 ## Error
 
