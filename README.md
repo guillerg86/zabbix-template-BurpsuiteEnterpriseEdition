@@ -36,7 +36,7 @@ Dispone de dos funciones.
 
 ### Template Burpsuite Enterprise Edition
 
-Pendiente de realizar unos cambios y subirlo al GIT.
+Template Zabbix Agent Active comprobado y creado en la versión 7.0 LTS de Zabbix, pero debería ser compatible almenos con la version 6.X
 
 
 ## Requisitos

@@ -1,0 +1,248 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Templates/Applications
+  templates:
+    - uuid: 5b6a0644443944f490fc5f8d2224f0bb
+      template: 'Burpsuite Enterprise Edition by Zabbix Agent Active'
+      name: 'Burpsuite Enterprise Edition by Zabbix Agent Active'
+      description: |
+        Author Guille Rodriguez Gonzalez
+        
+        https://www.linkedin.com/in/guille-rodriguez-gonzalez/
+        https://github.com/guillerg86/BurpsuiteEnterpriseEdition
+      groups:
+        - name: Templates/Applications
+      discovery_rules:
+        - uuid: f9f9825d3aa6433fa74090f346be86b5
+          name: 'Scan resources discovery'
+          type: ZABBIX_ACTIVE
+          key: 'burpsuiteee.scanresources.discover[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL}]'
+          delay: 1h
+          lifetime: 1d
+          item_prototypes:
+            - uuid: 9ad7d79ec9264be5b9cc1901fb26e9b3
+              name: 'Scanner {#NAME}: Cpu cores'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.cpu_cores[{#ID}]'
+              delay: '0'
+              history: 7d
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.cpu_cores
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+            - uuid: 98ee9cf255244f4e8e8f16682bc46819
+              name: 'Scanner {#NAME}: Current scan count'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.current_scan_count[{#ID}]'
+              delay: '0'
+              history: 7d
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.current_scan_count
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+            - uuid: df5d1e6ce16541f6ab01352570ae459a
+              name: 'Scanner {#NAME}: Enabled'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.enabled[{#ID}]'
+              delay: '0'
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.enabled
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      if (value == "true") return 1;
+                      return 0;
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+            - uuid: 5b5a48c19a9540b8bf5f5c1f2f7de666
+              name: 'Scanner {#NAME}: Error'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.error[{#ID}]'
+              delay: '0'
+              trends: '0'
+              value_type: CHAR
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.error
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+              trigger_prototypes:
+                - uuid: ce6fa9fee3ad45d9a7eeeb764af66fff
+                  expression: 'last(/Burpsuite Enterprise Edition by Zabbix Agent Active/burpsuite.scanner.error[{#ID}])<>"null"'
+                  name: 'Scanner {#NAME} with error'
+                  priority: DISASTER
+                  manual_close: 'YES'
+            - uuid: 7a8318ec2c27466a84606d4d001a1549
+              name: 'Scanner {#NAME}: Identifier'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.id[{#ID}]'
+              delay: '0'
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.id
+                - type: JAVASCRIPT
+                  parameters:
+                    - 'return parseInt(value);'
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+            - uuid: aebf15b234454412834fbfcb4fe6c046
+              name: 'Scanner {#NAME}: IP Address'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.ip[{#ID}]'
+              delay: '0'
+              trends: '0'
+              value_type: CHAR
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.ip
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+            - uuid: 8eff5449b14c4ebbbde295d7d83ab54f
+              name: 'Scanner {#NAME}: Max concurrent scans'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.max_concurrent_scans[{#ID}]'
+              delay: '0'
+              history: 7d
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.max_concurrent_scans
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+            - uuid: 29aebd1f46fc47529822f2728922cacb
+              name: 'Scanner {#NAME}: Name'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.name[{#ID}]'
+              delay: '0'
+              trends: '0'
+              value_type: CHAR
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.name
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+            - uuid: 5c378603b3cb4fa8915e6917de49c839
+              name: 'Scanner {#NAME}: State'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.state[{#ID}]'
+              delay: '0'
+              trends: '0'
+              value_type: CHAR
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.state
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+              trigger_prototypes:
+                - uuid: 9025df74dec8498e99b02d675510d90e
+                  expression: 'last(/Burpsuite Enterprise Edition by Zabbix Agent Active/burpsuite.scanner.state[{#ID}])="DisconnectedState"'
+                  name: 'Scanner {#NAME} is disconnected'
+                  priority: DISASTER
+                  manual_close: 'YES'
+                - uuid: 0de7bdb91b65429588c8402aeae0a640
+                  expression: 'last(/Burpsuite Enterprise Edition by Zabbix Agent Active/burpsuite.scanner.state[{#ID}])<>"AuthorizedState" and last(/Burpsuite Enterprise Edition by Zabbix Agent Active/burpsuite.scanner.state[{#ID}])<>"DisconnectedState"'
+                  name: 'Scanner {#NAME} not authorized'
+                  priority: WARNING
+                  manual_close: 'YES'
+            - uuid: b896b6b96202488d9bdef2dde18b869f
+              name: 'Scanner {#NAME}: Ram (GB)'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.system_ram_gb[{#ID}]'
+              delay: '0'
+              history: 7d
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.system_ram_gb
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+            - uuid: 8d63ec289370487ab5d9ed97709e1930
+              name: 'Scanner {#NAME}: Warning'
+              type: DEPENDENT
+              key: 'burpsuite.scanner.warning[{#ID}]'
+              delay: '0'
+              trends: '0'
+              value_type: CHAR
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - $.warning
+              master_item:
+                key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              tags:
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+              trigger_prototypes:
+                - uuid: 73702a5a5f874967b6375f3f50cb6230
+                  expression: 'last(/Burpsuite Enterprise Edition by Zabbix Agent Active/burpsuite.scanner.warning[{#ID}])<>"null"'
+                  name: 'Scanner {#NAME} has warnings'
+                  priority: WARNING
+                  manual_close: 'YES'
+            - uuid: ff4ce9faf81d4e8f89d9abffadef774a
+              name: 'Raw data for scanner {#ID} {#NAME}'
+              type: ZABBIX_ACTIVE
+              key: 'burpsuiteee.scanresources.agentinfo[{$BURPSUITEEE.API_TOKEN},{$BURPSUITEEE.API_BASE_URL},{#ID}]'
+              delay: 10m
+              history: 4h
+              trends: '0'
+              value_type: TEXT
+              tags:
+                - tag: Application
+                  value: raw
+                - tag: Application
+                  value: 'Scanner {#NAME}'
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.id
+            - lld_macro: '{#IPADDRESS}'
+              path: $.ip
+            - lld_macro: '{#NAME}'
+              path: $.name
+      macros:
+        - macro: '{$BURPSUITEEE.API_BASE_URL}'
+        - macro: '{$BURPSUITEEE.API_TOKEN}'
