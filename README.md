@@ -62,13 +62,15 @@ python3.exe burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token TOKEN
 
 Actualmente se usa un agente, ya que la idea es usar el agente que tiene el propio servidor instalado. Aunque al ser consultado via API se podría modificar para que se ejecutará mediante el Zabbix server / proxy
 
-Por ello en el agente se han de crear un fichero de configuración con los UserParameter.
+Por ello en el agente se han de crear un fichero de configuración con los UserParameter. 
+
+*El parámetro -B después de python evitará que se cree una carpeta llamada _pycache_*
 
 **Linux**
 
 ```
-UserParameter=burpsuiteee.scanresources.discover[*],/usr/bin/python3 /etc/zabbix/scripts/burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token $1 --api-base-url $2 --action discover
-UserParameter=burpsuiteee.scanresources.agentinfo[*],/usr/bin/python3 /etc/zabbix/scripts/burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token $1 --api-base-url $2 --action agentinfo --agent-id $3
+UserParameter=burpsuiteee.scanresources.discover[*],/usr/bin/python3 -B /etc/zabbix/scripts/burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token $1 --api-base-url $2 --action discover
+UserParameter=burpsuiteee.scanresources.agentinfo[*],/usr/bin/python3 -B /etc/zabbix/scripts/burpsuiteee_monitor_agents.py --disable-ssl-verify --api-token $1 --api-base-url $2 --action agentinfo --agent-id $3
 ```
 
 Si desea forzar la comprobación de certificado SSL del servidor en la petición, borre el `--disable-ssl-verify`. Guarde los cambios.
