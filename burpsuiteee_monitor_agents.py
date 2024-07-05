@@ -1,4 +1,4 @@
-############################################################################################
+###################################################################################################
 # Script para extraer el estado de las sondas a través de la API, generando un JSON como resultado
 # @author: Guille Rodríguez González 
 # @version: 2024.07.03

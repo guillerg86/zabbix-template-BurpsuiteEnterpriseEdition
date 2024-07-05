@@ -1,5 +1,5 @@
 ###################################################################################################
-# Modulo con las funciones para gestionar usuarios con la API de Burpsuite Enterprise Edition
+# Modulo con las funciones para interactuar con la API de Burpsuite Enterprise Edition
 # @author: Guille Rodríguez González - https://www.linkedin.com/in/guille-rodriguez-gonzalez/
 # @version: 2024.07.03
 # @api_version: For GraphQL API V1
